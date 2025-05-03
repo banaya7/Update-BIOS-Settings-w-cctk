@@ -1,0 +1,25 @@
+@echo off
+rem --- Set local and server paths ---
+set "localLogFile=C:\Temp\BIOSFLASHLOGS.txt"
+set "biosFlashExe=C:\temp\[NAME OF YOUR CCTK DIRECTORY\[Name of your CCTK executable].exe"
+set "bullpenToolsDir=C:\Temp\BullpenTools"
+ 
+rem --- Get computer name ---
+set "computerName=%COMPUTERNAME%"
+ 
+rem --- Create Temp if missing ---
+if not exist "C:\Temp" mkdir "C:\Temp"
+ 
+rem --- Start logging ---
+echo %date% %time% - Starting BIOS Flash on %computerName% > "%localLogFile%"
+ 
+rem --- Run BIOS Flash ---
+%biosFlashExe% >> "%localLogFile%" 2>&1
+ 
+rem --- Wait for a few seconds to allow BIOS process to finish ---
+timeout /t 60 /nobreak >nul
+ 
+ 
+rem --- Log completion ---
+echo %date% %time% - BIOS Flash Finished on %computerName% >> "%localLogFile%"
+ 
