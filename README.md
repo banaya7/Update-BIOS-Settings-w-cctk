@@ -31,7 +31,7 @@ Prepare:
 - A computer list in .txt format (e.g. computers.txt).
 
 
-###� Variables You Must Set in the Script
+### Variables You Must Set in the Script
 
 Edit the following variables at the top of the script:
 
@@ -51,7 +51,7 @@ $batchFile    = "[Your batch filename, e.g., BIOS_BATCH_V2.bat]"
 6. Cleans Up → Deletes batch file and BIOS folder on the target
 7. Reboots Machines → Performs a forced reboot on each system
 
-### 📁 Example Folder Layout
+###  Example Folder Layout
 
 \\Share\BIOS\
 │   BIOS_Settings.exe
