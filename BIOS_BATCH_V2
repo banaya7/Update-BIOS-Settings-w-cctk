@@ -2,7 +2,7 @@
 rem --- Set local and server paths ---
 set "localLogFile=C:\Temp\BIOSFLASHLOGS.txt"
 set "biosFlashExe=C:\temp\[NAME OF YOUR CCTK DIRECTORY\[Name of your CCTK executable].exe"
-set "bullpenToolsDir=C:\Temp\BullpenTools"
+
  
 rem --- Get computer name ---
 set "computerName=%COMPUTERNAME%"
