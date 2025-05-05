@@ -1,4 +1,23 @@
-# Define the path to the configuration file
+ <#
+ Author: Brandon Anaya
+ Date: 05/05/2025
+ Purpose: This code is paired with a batch file and an ini file that together allow for the automation of setting BIOS Settings 
+    using Dell's CCTK executables. This code copies a directory that holds the CCTK executable, and the Batch file that executes
+    the executable to the C:\temp directory of each computer on the list. It then executes the batch file which Flash's the BIOS
+    Settings. It then logs the completion of the BIOS Flash. The powershell command then grabs the local logs, and appends then 
+    appends them to a master log file. The script then deletes all resources besides the local logs on the remote computers, and
+    Restarts all computers on the ini list. 
+ Needed: Set your variables, download Dell CCTK, get an executable that holds desired settings you wish to copy, gather all
+    resources, (Note: Everything can be stored either on a network drive, or your computer) and execute powershell command.  
+ 
+ 
+  Define the path to the:
+  - Configuration file: This will be an ini file that will hold the list of the computers to run the computer on. 
+  - PSExec path: Download this online. You usually will not need to change the path.
+  - Batch Source: This is the path of the directory where the CCTK files and the Batch file will sit.
+  - BIOS Source: This is the path of the directory that the Dell CCTK GUI creates when you capture the BIOS settings of a computer.
+  - Batch File: This is the name of the batch file that gets locally copied onto the machine that exectutes the BIOS flash.
+ #>
  $iniPath = "[An ini file with the list of your computers, or pointing to a list of computers]"
  $psExecPath = "C:\PSTools\PsExec.exe"
  $batchSource = "[Directory where your Batch file lies(Can be in a network share)]"
