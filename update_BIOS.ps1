@@ -23,7 +23,7 @@
  $batchSource = "[Directory where your Batch file lies(Can be in a network share)]"
  $biosSource = "[Directory where your CCTK executable lies(Can be in a network share)]"
  $batchFile = "[The name of your batch file]"
- 
+ $masterLog = "path of your log"
  
  Write-Host "Reading from config: $iniPath"
  
