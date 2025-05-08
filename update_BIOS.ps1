@@ -24,6 +24,13 @@
  $biosSource = "[Directory where your CCTK executable lies(Can be in a network share)]"
  $batchFile = "[The name of your batch file]"
  $masterLog = "path of your log"
+ $remoteLogPath = "\\$computer\C$\Temp\BIOSFLASHLOGS.txt"
+
+ function Test-Online {
+    param ($computerName)
+    return Test-Connection -ComputerName $computerName -Count 1 -Quiet -ErrorAction SilentlyContinue
+}
+
  
  Write-Host "Reading from config: $iniPath"
  
@@ -45,7 +52,11 @@
  # Loop through each computer and copy files
  foreach ($computer in $computers) {
     Write-Host "Copying files to $computer..."
- 
+    
+    if (-not (Test-Online $computer)) {
+        Write-Warning "$computer is offline or unreachable. Skipping Copy."
+        continue
+    }
     # Copy BIOS folder
     try {                                              #\/ Name your destination
         robocopy $biosSource "\\$computer\C$\Temp\[NAME OF DESTINATION DIRECTORY]" /E /Z /R:2 /W:2
@@ -87,11 +98,16 @@
  }
  
  # Wait before collecting logs
- Start-Sleep -Seconds 30
+ Start-Sleep -Seconds 60
  
  foreach ($computer in $computers) {
+
+  if (-not (Test-Online $computer)) {
+        Write-Warning "$computer is offline or unreachable. Skipping log collection."
+        continue
+    }
     Write-Host "=== Processing $computer ==="
-    $remoteLogPath = "\\$computer\C$\Temp\BIOSFLASHLOGS.txt"
+  
  
     try {
         if (Test-Path $remoteLogPath) {
@@ -111,6 +127,11 @@
  
  foreach ($computer in $computers) {
     Write-Host "=== Cleaning files on $computer ==="
+
+     if (-not (Test-Online $computer)) {
+        Write-Warning "$computer is offline or unreachable. Skipping cleanup."
+        continue
+    }
    
     $pathsToDelete = @(
         "\\$computer\C$\Temp\[NAME OF DESTINATION DIRECTORY]",
@@ -135,12 +156,17 @@
  
  
  # Wait before rebooting
- Start-Sleep -Seconds 10
+ Start-Sleep -Seconds 30
  
  
  # Reboot all updated computers
  foreach ($computer in $computers) {
+ 
      Write-Host "=== Rebooting $computer ==="
+     if (-not (Test-Online $computer)) {
+        Write-Warning "$computer is offline or unreachable. Skipping Reboot."
+        continue
+     } 
      try {
          Start-Process -NoNewWindow -FilePath "$psExecPath" -ArgumentList "\\$computer -s shutdown /r /f /t 0"
      } catch {
